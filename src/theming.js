@@ -1,4 +1,4 @@
-export { DARK, DEFAULT_THEME_NAME, LIGHT } from 'theme-manager/constants'
+export { DARK, LIGHT } from 'theme-manager/constants'
 export {
   applyTheme,
   getTheme,

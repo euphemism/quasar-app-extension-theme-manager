@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { colors, LocalStorage, Dark } from 'quasar'
 
-import { DARK, DEFAULT_THEME_NAME, LIGHT } from 'theme-manager/constants'
+import { DARK, LIGHT, FIRST_THEME } from 'theme-manager/constants'
 import { themes } from 'src/theming/themes'
 
 const LOCAL_STORAGE_KEY = 'quasar-theme-manager'
@@ -23,16 +23,22 @@ const DEFAULT_COLORS = Object.fromEntries(BRAND_COLORS.map(brand => [brand, colo
 
 export const getTheme = (themeName, dark) => {
   const mode = dark == null ? Dark.isActive : dark
-  const matches = themes
-    .filter(theme => theme.name === themeName)
-    .filter(theme => theme.isDark === mode)
+  let matches = themes.filter(theme => theme.isDark === mode)
+
+  if (themeName !== FIRST_THEME) {
+    matches = matches.filter(theme => theme.name === themeName)
+  }
 
   if (matches.length === 0) {
-    return getTheme(DEFAULT_THEME_NAME, mode)
+    return getTheme(FIRST_THEME, mode)
   }
 
   return matches[0]
 }
+
+// First valid theme of each mode becomes the "default"
+const DEFAULT_LIGHT_THEME = getTheme(FIRST_THEME, LIGHT).name
+const DEFAULT_DARK_THEME = getTheme(FIRST_THEME, DARK).name
 
 const getColor = (color) => {
   return BRAND_COLORS.indexOf(color) > -1
@@ -58,7 +64,7 @@ export const applyTheme = theme => {
 
 export const loadThemeFromStorage = (isDark) => {
   if (!LocalStorage.has(LOCAL_STORAGE_KEY)) {
-    return DEFAULT_THEME_NAME
+    return isDark ? DEFAULT_DARK_THEME : DEFAULT_LIGHT_THEME
   }
 
   const themeStorage = LocalStorage.getItem(LOCAL_STORAGE_KEY)
@@ -70,8 +76,8 @@ export const loadThemeFromStorage = (isDark) => {
 export const theming = new Vue({
   data () {
     return {
-      activeDarkTheme: DEFAULT_THEME_NAME,
-      activeLightTheme: DEFAULT_THEME_NAME
+      activeDarkTheme: null,
+      activeLightTheme: null
     }
   },
   computed: {
@@ -136,8 +142,8 @@ export const theming = new Vue({
     }
   },
   created () {
-    this.activeDarkTheme = loadThemeFromStorage(DARK)
-    this.activeLightTheme = loadThemeFromStorage(LIGHT)
+    this.activeDarkTheme = getTheme(loadThemeFromStorage(DARK), DARK).name
+    this.activeLightTheme = getTheme(loadThemeFromStorage(LIGHT), LIGHT).name
 
     applyTheme(getTheme(this.isDark ? this.activeDarkTheme : this.activeLightTheme))
   },

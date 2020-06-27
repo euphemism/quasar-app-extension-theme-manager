@@ -1,17 +1,19 @@
 <template>
     <q-item v-bind="$attrs" v-on="$listeners">
-        <q-item-section avatar>
+        <q-item-section>
+          <div class="row items-center justify-start q-gutter-x-sm">
             <div class="row">
-                <div
-                v-for="color in displayColors"
+              <div
+                v-for="color in colors"
                 :key="color"
                 :class="`bg-${color} color-block`"
-                />
+              />
             </div>
-        </q-item-section>
 
-        <q-item-section>
-            {{ palette.name }}
+            <div>
+              {{ palette.name }}
+            </div>
+          </div>
         </q-item-section>
     </q-item>
 </template>
@@ -26,13 +28,17 @@ export default {
     }
   },
   computed: {
-    displayColors () {
+    colors () {
+      return this.getColors(['primary', 'secondary', 'accent', 'info', 'warning', 'positive', 'negative'])
+    }
+  },
+  methods: {
+    getColors (colors) {
       if (!this.palette.colors || this.palette.colors.length === 0) {
         return []
       }
 
-      return ['primary', 'secondary', 'accent']
-        .filter(brand => brand in this.palette.colors)
+      return colors.filter(brand => brand in this.palette.colors)
         .map(brand => this.palette.colors[brand])
     }
   }
