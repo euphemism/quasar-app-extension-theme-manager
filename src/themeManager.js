@@ -1,7 +1,8 @@
 import Vue from 'vue'
 
-import { colors, LocalStorage, Dark } from 'quasar'
+import { colors, LocalStorage, Dark, Dialog } from 'quasar'
 
+import ThemeCustomizationDialog from 'theme-manager/components/ThemeCustomizationDialog'
 import { DARK, LIGHT, FIRST_THEME } from 'theme-manager/constants'
 import { themes } from 'src/theming/themes'
 
@@ -116,6 +117,12 @@ export const theming = new Vue({
     }
   },
   methods: {
+    openThemeCustomizationDialog () {
+      Dialog.create({
+        component: ThemeCustomizationDialog,
+        parent: this
+      })
+    },
     persistThemeSettingsToStorage () {
       LocalStorage.set(LOCAL_STORAGE_KEY, this.themeSettings)
     },
@@ -154,50 +161,3 @@ export const theming = new Vue({
     }
   }
 })
-
-/*
-export const saveSiteSettingsToLocalStorage = state => {
-  LocalStorage.set('theme-manager-persistence', state)
-}
-
-export const setActiveTheme = (state, themeInfo) => {
-  if (themeInfo.isDark) {
-    state.settings.activeDarkTheme = themeInfo.theme
-  } else {
-    state.settings.activeLightTheme = themeInfo.theme
-  }
-
-  if (themeInfo.isDark === Dark.isActive) {
-    applyTheme(themeInfo.theme)
-  }
-
-  saveSiteSettingsToLocalStorage(state)
-}
-
-export const setDarkMode = (state, mode) => {
-  Dark.set(mode)
-
-  // Also toggle the theme between light and dark
-  const theme = Dark.isActive
-    ? state.settings.activeDarkTheme
-    : state.settings.activeLightTheme
-
-  applyTheme(theme)
-}
-
-export const setDarkModeEnabled = (state, enabled) => {
-  state.settings.enableDarkMode = enabled
-
-  setDarkMode(state, enabled)
-
-  saveSiteSettingsToLocalStorage(state)
-}
-
-export const setRespectBrowserThemeSettings = (state, respect) => {
-  state.settings.setRespectBrowserThemeSettings = respect
-
-  setDarkMode(state, respect ? 'auto' : state.settings.enableDarkMode)
-
-  saveSiteSettingsToLocalStorage(state)
-}
-*/
