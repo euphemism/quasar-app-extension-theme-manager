@@ -16,7 +16,7 @@ export const themes = [
       info: 'cyan-6',
       warning: 'amber-6',
       positive: 'green-14',
-      negative: 'red-10',
+      negative: 'red-10'
     }
   },
   {
