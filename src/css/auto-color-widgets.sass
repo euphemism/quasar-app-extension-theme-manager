@@ -1,4 +1,6 @@
 body.body--dark
+  --theme-manager--widget-light-background: #909090
+
   .q-badge:not(.q-btn--outline)
     color: var(--q-color-dark)
 
@@ -9,8 +11,43 @@ body.body--dark
     & .q-ripple
       color: var(--q-color-dark)
 
-  .q-notification__message
+  .q-checkbox__svg
+    color: var(--q-color-dark)
+
+  .q-chip
+    background: var(--theme-manager--widget-light-background)
+
+    .q-chip__content
+      color: var(--q-color-dark)
+
+  .q-notification
+    background-color: var(--theme-manager--widget-light-background)
+
+    &__badge
+      color: var(--q-color-dark)
+
+    &__content
+      color: var(--q-color-dark)
+
+  .q-slider__pin-text
     color: var(--q-color-dark)
 
   .q-toggle__inner--truthy .q-toggle__thumb .q-icon
     color: var(--q-color-dark)
+
+  .q-calendar
+    .q-calendar-daily__head-day
+      .q-btn:not(.q-btn--flat):not(.q-btn--outline)
+        & .q-btn__content
+          color: inherit
+
+        & .q-ripple
+          color: inherit
+
+    .q-calendar-weekly__day
+      .q-btn:not(.q-btn--flat):not(.q-btn--outline)
+        & .q-btn__content
+          color: inherit
+
+        & .q-ripple
+          color: inherit
