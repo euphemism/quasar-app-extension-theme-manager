@@ -1,6 +1,9 @@
 Quasar App Extension Theme Manager
 ===
 
+> [!IMPORTANT]
+> Long abandoned, and long outdated, this is no longer useful or maintained.
+
 An app extension to easily manage dynamic theming of an application&mdash;offers the following features:
 * Generates a `themes.js` file in `src/theming` where custom themes can be defined.
 * Supports light/dark themes.
